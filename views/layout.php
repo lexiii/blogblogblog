@@ -44,7 +44,13 @@ require($content);
 
 <div id='footer'>
 <div class='container'>
-footer
+<div class="row">
+  <div class="col-md-6" style='overflow:hidden;'>
+<p>footer</p>
+</div>
+  <div class="col-md-3" style='overflow:hidden;'>
+<p class='pull-right'><a href="?controller=login&action=login">Login</a></p>
+</div>
 </div>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

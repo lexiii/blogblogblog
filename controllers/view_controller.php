@@ -87,6 +87,10 @@
            require_once('views/layout.php');
 
         }
+
+        public function error(){
+            echo "ERROR";
+        }
     }
 
 ?>
