@@ -9,6 +9,8 @@ function totalTags(){
     return tags;
 }
 $(function () {
+    $(".fadeIn").hide();
+    $(".fadeIn").fadeIn(600);
     $("#postBox").jqte();
     // menu stuff
     $('.navbar-toggle-sidebar').click(function () {

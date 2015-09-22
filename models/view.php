@@ -22,20 +22,22 @@
             $this->cTitle       = $cTitle;
         }
 
-        public static function latest($n = 30){
+        public static function latest($n = 30,$s=0){
            $list    = [];
            $db      = db::getinstance();
            $tags    = [];
            $req     = $db->query("select * from posts ".
                       "LEFT JOIN authors on posts.authorId = authors.aId".
                       " LEFT JOIN categories on posts.categoryId = categories.cId".
-                      " order by posts.date desc limit ".$n);
-
-            $i = 0;
+                      " order by posts.date desc limit $s, $n");
+           $total     = $db->query("SELECT count(*) AS 'num' FROM posts ")->fetch(PDO::FETCH_NUM);
+           $rows = $total[0];
+           $i = 0;
            foreach ($req->fetchall() as $post){
-               $tags   = self::tags($post['id']);
-               $list[] = new view($post['id'],$post['categoryId'],$post['authorId'],$post['title'],$post['post'],$post['date'],$post['firstName'],$post['lastName'],$post['cTitle']);
+               $tags           = self::tags($post['id']);
+               $list[]         = new view($post['id'],$post['categoryId'],$post['authorId'],$post['title'],$post['post'],$post['date'],$post['firstName'],$post['lastName'],$post['cTitle']);
                $list[$i]->tags = $tags;
+               $list[$i]->rows = $rows;
                $i++;
            }
 

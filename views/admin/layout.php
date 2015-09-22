@@ -66,7 +66,7 @@
 							<div class="panel-body">
 								<ul class="nav navbar-nav">
 									<li><a href="?controller=admin&action=posts">Posts</a></li>
-									<li><a href="#">New Post</a></li>
+									<li><a href="?controller=admin&action=newPost">New Post</a></li>
 									<li><a href="#">Link</a></li>
                                 </ul>
                             </div>

@@ -104,7 +104,7 @@ class Admin{
 
     public static function addTag($tagId,$postId){
         $db   = db::getinstance();
-        $req  = $db->query("insert into postTags (postId,tagId) values ('".$postId."','".$tagId."')");
+        $req  = $db->query("INSERT INTO postTags (postId,tagId) values ('".$postId."','".$tagId."')");
         self::announce("$tag added to $tagid");
     }
 
@@ -164,6 +164,17 @@ class Admin{
                 "categoryId='$category', post = '$post' ".
                 "WHERE id = '".$id."' ".
                 "LIMIT 1");
+
+    }
+
+
+    public static function newPost($title, $post, $category, $author){
+        $db   = db::getinstance();
+        $req  = $db->query("INSERT INTO posts ".
+                "SET authorId = '$author', title = '$title', ".
+                "categoryId='$category', post = '$post' ".
+                "");
+        return $db->lastInsertId();
 
     }
 

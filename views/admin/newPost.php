@@ -1,4 +1,5 @@
 <?php
+/*
 $auth = "";
 foreach($authors as $author){
     $sel = ($author['id']==$post['authorId'])?" selected":"";
@@ -9,10 +10,8 @@ foreach($categories as $category){
     $cats .=  "<option value='".$category['id']."'".$sel.">".$category['title']."</option> \n";
 }
 $tagg = [];
-if($tags){
-    foreach($tags as $tag){
-        $tagg[] =  $tag['title'];
-    }
+foreach($tags as $tag){
+    $tagg[] =  $tag['title'];
 }
 $tagSelector = "";
 foreach($tagList as $tag){
@@ -26,8 +25,9 @@ $tagg = json_encode($tagg);
     //if($tag != end($tags))
         //$tagg.=", ";
 //}
+ */
 ?>
-    <form action="<?php echo $formAction; ?>" method="post">
+<form action="?controller=admin&action=edit" method="post">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
