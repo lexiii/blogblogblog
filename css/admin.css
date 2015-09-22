@@ -379,3 +379,7 @@ h1.page-header {
 .tagSelector{
     margin-top:25px;
 }
+.jqte_tool_label.unselectable{
+    overflow:visible!important;
+}
+

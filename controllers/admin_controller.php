@@ -16,17 +16,23 @@ class AdminController{
     public function edit(){
         self::sessionCheck();
         if(isset($_POST['title'])){
-            $title      = $_POST['title'];
-            $id         = $_POST['id'];
-            $post       = $_POST['post'];
-            $tags       = $_POST['tags'];
-            $tags       = str_replace("#","",$tags);
-            $tags = json_decode($tags);
+            $title    = $_POST['title'];
+            $id       = $_POST['id'];
+            $post     = $_POST['post'];
+            $category = $_POST['category'];
+            $author   = $_POST['author'];
+            $tags     = $_POST['tags'];
+            $tags     = str_replace("#","",$tags);
+            $tags     = json_decode($tags);
 
             $tagList = View::tags($id);
-            Admin::sortTags($tags);
-            Admin::hasTags($tags,$id);
+            if(count($tags)!=0){
+                Admin::sortTags($tags);
+                Admin::hasTags($tags,$id);
+            }
             Admin::removeTags($tags,$id,$tagList);
+
+            Admin::saveChanges($id,$title,$post,$category,$author);
 
             $redirect = "?controller=admin&action=edit&p=".$id;
             require_once('views/redirect.php');

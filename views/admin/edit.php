@@ -38,19 +38,19 @@ $tagg = json_encode($tagg);
     <h3><small>Post</small></h3>
     <div class="row">
         <div class="col-md-10">
-            <textarea class="form-control" rows="9" name='post'><?php echo $post['post']; ?></textarea>
+            <textarea class="form-control" id='postBox' rows="9" name='post'><?php echo $post['post']; ?></textarea>
         </div>
     </div>
     <div class="row">
         <div class="col-md-5">
             <h3><small>User</small></h3>
-            <select class="form-control">
+            <select name='author' class="form-control">
                 <?php echo $auth; ?>
             </select>
         </div>
         <div class="col-md-5">
             <h3><small>Category</small></h3>
-            <select class="form-control">
+            <select name='category' class="form-control">
                 <?php echo $cats; ?>
             </select>
         </div>

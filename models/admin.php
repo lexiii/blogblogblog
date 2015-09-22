@@ -155,5 +155,15 @@ class Admin{
         self::hasTags($tags,$id); // adds tags to post
     }
 
+    public static function saveChanges($id, $title, $post, $category, $author){
+        $db   = db::getinstance();
+        $req  = $db->query("UPDATE posts ".
+                "SET authorId = '$author', title = '$title', ".
+                "categoryId='$category', post = '$post' ".
+                "WHERE id = '".$id."' ".
+                "LIMIT 1");
+
+    }
+
 }
 ?>

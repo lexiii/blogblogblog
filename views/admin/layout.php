@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/vendor/jquery-te-1.4.0.css">
 <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
@@ -128,6 +129,7 @@
   	</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="js/vendor/jquery-te-1.4.0.min.js"></script>
 <script src="js/admin.js"></script>
 </body>
 </html>

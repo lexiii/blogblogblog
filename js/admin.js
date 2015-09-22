@@ -9,6 +9,7 @@ function totalTags(){
     return tags;
 }
 $(function () {
+    $("#postBox").jqte();
     // menu stuff
     $('.navbar-toggle-sidebar').click(function () {
         $('.navbar-nav').toggleClass('slide-in');
