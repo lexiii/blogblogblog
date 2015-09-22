@@ -19,7 +19,7 @@ class LoginController{
                     require_once('views/login/layout.php');
                 }else{
                     $details = $validated[1]; // id->1
-                    $_SESSION["id"]         = $details["uId"];
+                    $_SESSION["id"]         = $details["aId"];
                     $_SESSION["username"]   = $details["username"];
                     $_SESSION["role"]       = $details["role"];
                     $redirect = "?controller=admin&action=home";

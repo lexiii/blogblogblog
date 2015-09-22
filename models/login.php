@@ -3,7 +3,7 @@
         public static function validate($username, $password){
             $error = [];
            $db      = db::getinstance();
-           $req     = $db->query("SELECT * FROM users ".
+           $req     = $db->query("SELECT * FROM authors ".
                     "WHERE username='$username' ".
 //                    "AND password='$password' ".
                     "LIMIT 1");
