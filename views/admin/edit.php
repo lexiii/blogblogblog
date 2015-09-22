@@ -8,14 +8,24 @@ foreach($categories as $category){
     $sel = ($category['id']==$post['categoryId'])?" selected":"";
     $cats .=  "<option value='".$category['id']."'".$sel.">".$category['title']."</option> \n";
 }
-$tagg = "";
+$tagg = [];
 foreach($tags as $tag){
-    $tagg .= "#".$tag['title'];
-    if($tag != end($tags))
-        $tagg.=", ";
+    $tagg[] =  $tag['title'];
 }
+$tagSelector = "";
+foreach($tagList as $tag){
+    if(!in_array($tag['title'],$tagg))
+    $tagSelector .= "<div class='tag makeTag'>#".$tag['title']."</div>";
+}
+$tagg = json_encode($tagg);
+//$tagg = "";
+//foreach($tags as $tag){
+    //$tagg .= "#".$tag['title'];
+    //if($tag != end($tags))
+        //$tagg.=", ";
+//}
 ?>
-<form action="?controller=admin&action=edit" method="pos">
+<form action="?controller=admin&action=edit" method="post">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -48,7 +58,14 @@ foreach($tags as $tag){
     <div class="row">
         <div class="col-md-6">
             <h3><small>Tags</small></h3>
-            <input type='text' class='form-control' name='tags' value='<?php echo $tagg; ?>' />
+            <input type='text' class='form-control' id='tagEnter' placeholder='Enter tag and press enter'  value='' />
+            <input type='hidden' id='tagSend' name='tags' value='<?php echo $tagg; ?>' />
+            <div id='tagPlace'>
+            </div>
+        </div>
+        <div id='tagSelector' class="col-md-4 tagSelector">
+<h2><small>Existing Tags</small></h2>
+            <?php echo $tagSelector; ?>
         </div>
     </div>
 <br/>

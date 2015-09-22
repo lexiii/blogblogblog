@@ -353,3 +353,29 @@ h1.page-header {
 .navbar-static-top{
     border-bottom:5px solid #e7e7e7;
 }
+
+#tagPlace{
+    margin-top:10px;
+}
+.tag{
+    background:#C5C5C5;
+    border-radius:5px;
+    /*max-width:100px;*/
+    text-align:right;
+    display:inline-block;
+    margin-right:10px;
+    margin-bottom:10px;
+    padding:5px;
+}
+
+.tag:hover{
+    background:#A7A2A2;
+}
+
+.tag.glyphicon{
+    margin-right:10px;
+}
+
+.tagSelector{
+    margin-top:25px;
+}

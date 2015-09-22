@@ -21,7 +21,7 @@ class AdminController{
             $post       = $_POST['post'];
             $tags       = $_POST['tags'];
             $tags       = str_replace("#","",$tags);
-            $tags       = explode(", ",$tags);
+            $tags = json_decode($tags);
 
             $tagList = View::tags($id);
             Admin::sortTags($tags);
@@ -39,6 +39,7 @@ class AdminController{
                 $post       = View::post($n);
                 $authors    = Admin::getAuthors();
                 $categories = Admin::getCategory();
+                $tagList    = View::tagList();
                 $tags       = View::tags($n);
                 $content    = "views/admin/edit.php";
                 require_once('views/admin/layout.php');
