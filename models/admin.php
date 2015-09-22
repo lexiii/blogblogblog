@@ -167,5 +167,75 @@ class Admin{
 
     }
 
+    public static function getRoles(){
+        $list = [];
+        $db   = db::getinstance();
+        $req  = $db->query("SELECT * FROM userRoles");
+        foreach ($req->fetchall() as $role){
+            $list[]=[
+                "id"        => $role['rId'],
+                "role"      => $role['uRole']
+                ];
+        }
+        return $list;
+    }
+    public static function getUsers(){
+        $list = [];
+        $db   = db::getinstance();
+        $req  = $db->query("SELECT * FROM authors LEFT JOIN userRoles on authors.role=userRoles.rId");
+        foreach ($req->fetchall() as $user){
+            $list[]=[
+                "id"        => $user['aId'],
+                "firstName" => $user['firstName'],
+                "lastName"  => $user['lastName'],
+                "userName"  => $user['userName'],
+                "role"      => $user['uRole']
+                ];
+        }
+        return $list;
+    }
+
+    public static function getUser($id){
+        $list = [];
+        $db   = db::getinstance();
+        $req  = $db->query("SELECT * FROM authors LEFT JOIN userRoles on authors.role=userRoles.rId WHERE aId = ".$id);
+        $result = $req->fetch();
+        if($result){
+            unset($result['password']);
+            unset($result[4]);
+            return $result;
+        }else{
+            return NULL;
+        }
+    }
+
+    public static function updateUser($user){
+        if($user['password1']!=""){
+            $err = [];
+            if($user['password1']!=$user['password2']){
+                $err[] = "Passwords must match";
+            }
+            if(strlen($user['password1'])<6||strlen($user['password1'])>30){
+                $err[] = "Password must be between 6 and 30 chars long";
+            }
+
+            if(count($err)==0){
+                $pass    = password_hash($user['password1'],PASSWORD_DEFAULT);
+                $andPass = ", password = '$pass' ";
+            }else{
+                return [$err,$user['id']];
+            }
+        }else{
+            $andPass = " ";
+        }
+        $db   = db::getinstance();
+        $req  = $db->query("UPDATE authors SET username = '".$user['username']."', ".
+                            "firstName = '".$user['firstName']."', ".
+                            "lastName = '".$user['lastName']."', ".
+                            "role = '".$user['role']."'".
+                            $andPass.
+                            "WHERE aId = '".$user['id']."'" );
+        return [1,$user['id']];
+    }
 }
 ?>
