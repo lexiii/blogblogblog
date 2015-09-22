@@ -69,5 +69,5 @@ $tagg = json_encode($tagg);
         </div>
     </div>
 <br/>
-<input type="submit" value="edit" class='btn btn-default'/>
+<input type="submit" value="Save" class='btn btn-default'/>
 </form>
