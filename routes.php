@@ -12,7 +12,8 @@
             $controller = new LoginController();
             break;
         case 'admin':
-//            require_once('models/login.php');
+            require_once('models/view.php');
+            require_once('models/admin.php');
             $controller = new AdminController();
             break;
         }

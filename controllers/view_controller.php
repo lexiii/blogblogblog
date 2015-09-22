@@ -89,7 +89,7 @@
         }
 
         public function error(){
-            echo "ERROR";
+            echo "ERROR!";
         }
     }
 

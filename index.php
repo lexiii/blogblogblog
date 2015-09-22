@@ -3,15 +3,15 @@
 require_once('connection.php');
 
 if(isset($_GET['controller'])&&isset($_GET['action'])){
-    $controller     = $_GET['controller'];
-    $action         = $_GET['action'];
+    $controller = $_GET['controller'];
+    $action     = $_GET['action'];
 } else {
-    $controller     = 'view';
-    $action         = 'home';
+    $controller = 'view';
+    $action     = 'home';
 }
 
-$layout_page = 'views/layout.php';
+$layout_page = "views/layout.php";
 
-require_once('routes.php');
+require_once("routes.php");
 
 ?>
