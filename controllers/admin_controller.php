@@ -49,7 +49,6 @@ class AdminController{
                 $tags       = View::tags($n);
                 $content    = "views/admin/edit.php";
                 require_once('views/admin/layout.php');
-                //echo $n;
             }
         }
     }

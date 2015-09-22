@@ -137,14 +137,16 @@ class Admin{
         foreach($tagList as $tag){
             $justTags[] = $tag['title'];
         }
-        $toDelete = [];
-        foreach($justTags as $tag){
-            if(in_array($tag,$tags)){
-                self::announce("$tag in taglist");
-            }else{
-                self::announce("$tag not in taglist");
-                self::removeTag($tag, $postId);
-                $todelete[] = $tag;
+        if(count($tags)!=0){
+            $toDelete = [];
+            foreach($justTags as $tag){
+                if(in_array($tag,$tags)){
+                    self::announce("$tag in taglist");
+                }else{
+                    self::announce("$tag not in taglist");
+                    self::removeTag($tag, $postId);
+                    $todelete[] = $tag;
+                }
             }
         }
         return $toDelete;
