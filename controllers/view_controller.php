@@ -1,15 +1,16 @@
 <?php
     class ViewController{
         public function home(){
-            $posts = View::latest();
-            $content =  'views/view/home.php';
+            $posts   = View::latest();
+            $content = 'views/view/home.php';
             require_once('views/layout.php');
         }
         public function post(){
+            $role    = $this->getRole();
             if(isset($_GET['p'])){
                 $n=$_GET['p'];
             }else{
-                $this::home();
+                $this->home();
                 $n=0;
             }
             $post = View::post($n);
@@ -86,6 +87,14 @@
 
            require_once('views/layout.php');
 
+        }
+
+        public function getRole(){
+            session_start();
+            if(isset($_SESSION["role"])){
+                return $_SESSION['role'];
+            }
+            return -1;
         }
 
         public function error(){

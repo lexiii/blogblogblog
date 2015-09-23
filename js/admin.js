@@ -9,6 +9,22 @@ function totalTags(){
     return tags;
 }
 $(function () {
+    $("#deleteButton").click(function(){
+        if(!$(this).hasClass("SURE")){
+            $(this).addClass("SURE");
+            $(this).append("?");
+$(document).mouseup(function (e)
+{
+    var container = $('#deleteButton');
+    if(!container.is(e.target)){
+        container.removeClass("SURE");
+        container.text(container.text().slice(0,-1));
+    }
+    $(this).unbind('mouseup');
+});
+            return false;
+        }
+    })
     $(".fadeIn").hide();
     $(".fadeIn").fadeIn(600);
     $("#postBox").jqte();
@@ -22,7 +38,6 @@ $(function () {
     function addTag(subject, newTag){
         // dont add existing tag
         tag = "tag"+(newTag?" new":"");
-        console.log(tag);
         if(existingTags.indexOf("#"+subject)==-1){
             $('#tagPlace').append("<div class='"+tag+"'>"+
                                   "#"+subject+

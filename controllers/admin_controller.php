@@ -1,4 +1,7 @@
 <?php
+
+// ADMIN CONTROLLER     -   /controllers/admin_controller.php
+
 class AdminController{
     public function home(){
         self::sessionCheck();
@@ -8,10 +11,10 @@ class AdminController{
 
     public function posts(){
         self::sessionCheck();
-        $s = isset($_GET['s'])?$_GET['s']:0;
-        $s = $s*10;
-        $per = 10;
-        $posts = View::latest($per,$s);
+        $s       = isset($_GET['s'])?$_GET['s']:0;
+        $s       = $s*10;
+        $per     = 10;
+        $posts   = View::latest($per,$s);
         $content = "views/admin/posts.php";
         require_once('views/admin/layout.php');
     }
@@ -31,6 +34,9 @@ class AdminController{
 
             foreach($tags as $tag){
                 $tagId = Admin::isTag($tag);
+                if($tagId==false){
+                    $tagId = Admin::createTag($tag);
+                }
                 Admin::addTag($tagId,$id);
             }
             $redirect = "?controller=admin&action=posts&h=1";
@@ -78,6 +84,7 @@ class AdminController{
                 $categories = Admin::getCategory();
                 $tagList    = View::tagList();
                 $tags       = View::tags($n);
+                $editing    = TRUE;
                 $content    = "views/admin/edit.php";
                 $formAction = "?controller=admin&action=edit";
                 require_once('views/admin/layout.php');
@@ -123,6 +130,16 @@ class AdminController{
                 require_once('views/admin/layout.php');
             }
         }
+    }
+
+    public function delete(){
+        self::sessionCheck();
+        if(isset($_GET['p'])){
+            $n = $_GET['p'];
+            $delete    = Admin::deletePost($n);
+        }
+        $redirect   = "?controller=admin&action=posts";
+        require_once('views/redirect.php');
     }
 
     public function error(){

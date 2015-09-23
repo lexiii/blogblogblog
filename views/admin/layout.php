@@ -55,7 +55,7 @@
 			<!-- Main Menu -->
 			<div class="side-menu-container">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+					<li class="active"><a href="?controller=admin&action=home"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
 					<!-- Dropdown-->
 					<li class="panel panel-default" id="dropdown">
 						<a data-toggle="collapse" href="#dropdown-lvl1">
@@ -67,14 +67,11 @@
 								<ul class="nav navbar-nav">
 									<li><a href="?controller=admin&action=posts">Posts</a></li>
 									<li><a href="?controller=admin&action=newPost">New Post</a></li>
-									<li><a href="#">Link</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
 					<li><a href="?controller=admin&action=users"><span class="glyphicon glyphicon-plane"></span> Users</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-cloud"></span> Link</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
 
 				</ul>
 			</div><!-- /.navbar-collapse -->

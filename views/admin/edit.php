@@ -20,12 +20,6 @@ foreach($tagList as $tag){
     $tagSelector .= "<div class='tag makeTag'>#".$tag['title']."</div>";
 }
 $tagg = json_encode($tagg);
-//$tagg = "";
-//foreach($tags as $tag){
-    //$tagg .= "#".$tag['title'];
-    //if($tag != end($tags))
-        //$tagg.=", ";
-//}
 ?>
     <form action="<?php echo $formAction; ?>" method="post">
     <div class="row">
@@ -72,4 +66,7 @@ $tagg = json_encode($tagg);
     </div>
 <br/>
 <input type="submit" value="Save" class='btn btn-default'/>
+<?php if(isset($editing)){ ?>
+    <a href='?controller=admin&action=delete&p=<?php echo $post['id']; ?>' class='btn btn-danger' id='deleteButton'>Delete</a>
+<?php } ?>
 </form>

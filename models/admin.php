@@ -1,26 +1,8 @@
 <?php
-class Admin{
-    public $id;
-    public $categoryId;
-    public $authorId;
-    public $title;
-    public $post;
-    public $date;
-    public $firstName;
-    public $lastName;
-    public $cTitle;
 
-    public function __construct($id, $categoryId, $authorId, $title, $post, $date, $firstName, $lastName, $cTitle){
-        $this->id           = $id;
-        $this->categoryId   = $categoryId;
-        $this->authorId     = $authorId;
-        $this->title        = $title;
-        $this->post         = $post;
-        $this->date         = $date;
-        $this->firstName    = $firstName;
-        $this->lastName     = $lastName;
-        $this->cTitle       = $cTitle;
-    }
+// ADMIN MODEL      -   /models/admin.php
+
+class Admin{
 
     public static function announce($str){
         //echo "$str <br/>";
@@ -70,7 +52,9 @@ class Admin{
     public static function createTag($tag){
         $db   = db::getinstance();
         $req  = $db->query("insert into tags (tag) values ('".$tag."')");
+        $id = $db->lastInsertId();
         self::announce("$tag created");
+        return $id;
     }
 
     // Creates tags that don't exist and returns ones that dont
@@ -248,5 +232,15 @@ class Admin{
                             "WHERE aId = '".$user['id']."'" );
         return [1,$user['id']];
     }
+
+    public static function deletePost($n){
+        $db   = db::getinstance();
+        $req  = $db->query(" INSERT INTO deletedPosts SELECT * FROM posts WHERE id = '".$n."' ;");
+        $req  = $db->query(" INSERT INTO deletedPostTags SELECT * FROM postTags WHERE postId = '".$n."' ;");
+
+        $req  = $db->query(" DELETE FROM postTags WHERE postId = '".$n."' ;");
+        $req  = $db->query(" DELETE FROM posts  WHERE id = '".$n."' ;");
+    }
+
 }
 ?>

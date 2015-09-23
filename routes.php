@@ -22,7 +22,7 @@
     }
 $controllers = array(   'view'=>['home','post','author','category','tag','error'],
                         'login'=>['login','submit','register','forgot','logout','error'],
-                        'admin'=>['home','posts','newPost','edit','users','error']);
+                        'admin'=>['home','posts','delete','newPost','edit','users','error']);
 
 if(array_key_exists($controller,$controllers)){
     if(in_array($action,$controllers[$controller])){
