@@ -32,12 +32,14 @@ class AdminController{
 
             $id = Admin::newPost($title, $post, $category, $author);
 
-            foreach($tags as $tag){
-                $tagId = Admin::isTag($tag);
-                if($tagId==false){
-                    $tagId = Admin::createTag($tag);
+            if(count($tags)>0){
+                foreach($tags as $tag){
+                    $tagId = Admin::isTag($tag);
+                    if($tagId==false){
+                        $tagId = Admin::createTag($tag);
+                    }
+                    Admin::addTag($tagId,$id);
                 }
-                Admin::addTag($tagId,$id);
             }
             $redirect = "?controller=admin&action=posts&h=1";
             require_once('views/redirect.php');

@@ -1,7 +1,10 @@
 <?php
     class ViewController{
         public function home(){
-            $posts   = View::latest();
+            $s       = isset($_GET['s'])?$_GET['s']:0;
+            $s       = $s*10;
+            $per     = 10;
+            $posts   = View::latest($per,$s);
             $content = 'views/view/home.php';
             require_once('views/layout.php');
         }

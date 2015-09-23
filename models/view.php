@@ -26,7 +26,7 @@ class View{
     }
 
     // Gets posts where $n is how many posts to fetch and $s is what post to start from (for pagination)
-    public static function latest($n = 30,$s=0){
+    public static function latest($n = 10,$s=0){
         $list    = [];
         $db      = db::getinstance();
         $tags    = [];
