@@ -4,7 +4,7 @@
             $s       = isset($_GET['s'])?$_GET['s']:0;
             $s       = $s*10;
             $per     = 10;
-            $posts   = View::latest($per,$s);
+            $posts   = View::getLatest($per,$s);
             $content = 'views/view/home.php';
             require_once('views/layout.php');
         }
@@ -30,8 +30,11 @@
         public function author(){
             if(isset($_GET['p'])){
                 $n=$_GET['p'];
-
-                $posts = View::author($n);
+                $s       = isset($_GET['s'])?$_GET['s']:0;
+                $s       = $s*10;
+                $per     = 10;
+                $posts = Author::getLatest($per,$s,$n);
+                $link2  = "?controller=view&action=author&p=".$n."&s=";
 
                 $breadcrumbs = [ "Home" => "?",
                     "Authors" => "?controller=view&action=author",
@@ -48,10 +51,17 @@
 
 
         }
+
         public function category(){
             if(isset($_GET['p'])){
                 $n=$_GET['p'];
-                $posts = View::category($n);
+                $s       = isset($_GET['s'])?$_GET['s']:0;
+                $s       = $s*10;
+                $per     = 10;
+                $posts = Category::getLatest($per,$s,$n);
+                $link2  = "?controller=view&action=category&p=".$n."&s=";
+
+                //$posts = View::category($n);
                 $breadcrumbs = [ "Home" => "?",
                     "Categories" => "?controller=view&action=category",
                     $posts[0]->cTitle => "a"];
@@ -73,12 +83,16 @@
         public function tag(){
             if(isset($_GET['p'])){
                 $n=$_GET['p'];
-                $posts = View::byTag($n);
+                $s       = isset($_GET['s'])?$_GET['s']:0;
+                $s       = $s*10;
+                $per     = 10;
+                $posts = Tag::getLatest($per,$s,$n);
+                $link2  = "?controller=view&action=tag&p=".$n."&s=";
+
                 $tag   = View::singleTag($n);
                 $breadcrumbs = [ "Home" => "?",
                     "Tags" => "?controller=view&action=tag",
                     $tag['tag'] => $tag['tId']];
-                //var_dump($posts);
 
                 $content =  'views/view/home.php';
             }else{

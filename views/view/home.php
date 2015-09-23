@@ -5,7 +5,9 @@ if($rows>$per){
     $pages = ceil($rows/$per);
     $pos   = $s+$per;
     $cur   = $s/10+1;
-    $link  = "?controller=view&action=home&s=";
+    if(!isset($link2))
+        $link2  = "?controller=view&action=home&s=";
+    $link = $link2;
 
     // PREVIOUS
     if($s>0){
@@ -31,7 +33,6 @@ if($rows>$per){
         }
     }
 }
-
 $multiple = true;
 foreach ($posts as $post){
     $tags = $post->tags;

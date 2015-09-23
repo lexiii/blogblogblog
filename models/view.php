@@ -26,17 +26,18 @@ class View{
     }
 
     // Gets posts where $n is how many posts to fetch and $s is what post to start from (for pagination)
-    public static function latest($n = 10,$s=0){
-        $list    = [];
-        $db      = db::getinstance();
-        $tags    = [];
-        $req     = $db->query("select * from posts ".
-            "LEFT JOIN authors on posts.authorId = authors.aId".
-            " LEFT JOIN categories on posts.categoryId = categories.cId".
-            " order by posts.date desc limit $s, $n");
-        $total     = $db->query("SELECT count(*) AS 'num' FROM posts ")->fetch(PDO::FETCH_NUM);
-        $rows = $total[0];
-        $i = 0;
+    public static function latest($n = 10,$s=0, $x=0, $that = self){
+        $list  = [];
+        $db    = db::getinstance();
+        $tags  = [];
+        $query = $that::getQuery($s, $n, $x);
+        $req   = $db->query($query);
+
+        $rows = $that::getCount($db, $x);
+        //$total = $db->query("SELECT count(*) AS 'num' FROM posts ")->fetch(PDO::FETCH_NUM);
+//        $rows  = $total[0];
+        $i     = 0;
+
         foreach ($req->fetchall() as $post){
             $tags           = self::tags($post['id']);
             $list[]         = new view($post['id'],$post['categoryId'],$post['authorId'],$post['title'],$post['post'],$post['date'],$post['firstName'],$post['lastName'],$post['cTitle']);
@@ -47,6 +48,24 @@ class View{
 
         return $list;
 
+    }
+
+    public static function getCount($db, $x=0){
+        $total = $db->query("SELECT count(*) AS 'num' FROM posts ")->fetch(PDO::FETCH_NUM);
+        $rows  = $total[0];
+        return $rows;
+    }
+
+    public static function getLatest($per,$s,$n = 0){
+        return self::latest($per,$s,$n, View);
+    }
+
+    public static function getQuery($s, $n, $x){
+        $query     = "select * from posts ".
+            "LEFT JOIN authors on posts.authorId = authors.aId".
+            " LEFT JOIN categories on posts.categoryId = categories.cId".
+            " order by posts.date desc limit $s, $n";
+        return $query;
     }
 
     // Grab a single post
@@ -62,49 +81,6 @@ class View{
         if($result)
             return $result;
         return NULL;
-    }
-
-    public static function author($n){
-        $list   = [];
-        $db     = db::getinstance();
-        $req    = $db->query("select * from posts".
-            " LEFT JOIN authors on posts.authorId = authors.aId".
-            " LEFT JOIN categories on posts.categoryId = categories.cId".
-            " WHERE posts.authorId=".$n);
-
-        foreach ($req->fetchall() as $post){
-            $list[] = new view($post['id'],$post['categoryId'],$post['authorId'],$post['title'],$post['post'],$post['date'],$post['firstName'],$post['lastName'],$post['cTitle']);
-        }
-        return $list;
-    }
-
-    public static function category($n){
-        $list   = [];
-        $db     = db::getinstance();
-        $req    = $db->query("select * from posts".
-            " LEFT JOIN authors on posts.authorId = authors.aId".
-            " LEFT JOIN categories on posts.categoryId = categories.cId".
-            " WHERE posts.categoryId=".$n);
-
-        foreach ($req->fetchall() as $post){
-            $list[] = new view($post['id'],$post['categoryId'],$post['authorId'],$post['title'],$post['post'],$post['date'],$post['firstName'],$post['lastName'],$post['cTitle']);
-        }
-        return $list;
-    }
-
-    public static function byTag($n){
-        $list   = [];
-        $db     = db::getinstance();
-        $req    = $db->query("select * from postTags".
-            " LEFT JOIN posts on postTags.postId = posts.id".
-            " LEFT JOIN authors on posts.authorId = authors.aId".
-            " LEFT JOIN categories on posts.categoryId = categories.cId".
-            " WHERE postTags.tagId=".$n);
-
-        foreach ($req->fetchall() as $post){
-            $list[] = new view($post['id'],$post['categoryId'],$post['authorId'],$post['title'],$post['post'],$post['date'],$post['firstName'],$post['lastName'],$post['cTitle']);
-        }
-        return $list;
     }
 
     public static function tags($n){
@@ -173,6 +149,77 @@ class View{
             ];
         }
         return $list;
+    }
+}
+
+class Author extends View{
+    public static function getLatest($per,$s,$n){
+        return self::latest($per,$s,$n, Author);
+    }
+
+    public static function getCount($db,$x){
+        $total = $db->query("SELECT count(*) AS 'num' FROM posts ".
+            "LEFT JOIN authors on posts.authorId = authors.aId".
+            " LEFT JOIN categories on posts.categoryId = categories.cId".
+            " WHERE posts.authorId=".$x)->fetch(PDO::FETCH_NUM);
+        $rows  = $total[0];
+        return $rows;
+    }
+
+    public static function getQuery($s, $n, $x){
+        $query     = "select * from posts ".
+            "LEFT JOIN authors on posts.authorId = authors.aId".
+            " LEFT JOIN categories on posts.categoryId = categories.cId".
+            " WHERE posts.authorId=".$x.
+            " order by posts.date desc limit $s, $n";
+        return $query;
+    }
+}
+
+class Category extends View{
+    public static function getLatest($per,$s,$n){
+        return self::latest($per,$s,$n, Category);
+    }
+
+    public static function getCount($db,$x){
+        $total = $db->query("SELECT count(*) AS 'num' FROM posts ".
+            "LEFT JOIN authors on posts.authorId = authors.aId".
+            " LEFT JOIN categories on posts.categoryId = categories.cId".
+            " WHERE posts.categoryId=".$x)->fetch(PDO::FETCH_NUM);
+        $rows  = $total[0];
+        return $rows;
+    }
+
+    public static function getQuery($s, $n, $x){
+        $query     = "select * from posts ".
+            "LEFT JOIN authors on posts.authorId = authors.aId".
+            " LEFT JOIN categories on posts.categoryId = categories.cId".
+            " WHERE posts.categoryId=".$x.
+            " order by posts.date desc limit $s, $n";
+        return $query;
+    }
+}
+
+class Tag extends View{
+    public static function getLatest($per,$s,$n){
+        return self::latest($per,$s,$n, Tag);
+    }
+
+    public static function getCount($db,$x){
+        $total = $db->query("SELECT COUNT(*) AS num FROM postTags".
+            " WHERE postTags.tagId=".$x)->fetch(PDO::FETCH_NUM);
+        $rows  = $total[0];
+        return $rows;
+    }
+
+    public static function getQuery($s, $n, $x){
+        $query    = "SELECT * FROM postTags".
+            " LEFT JOIN posts on postTags.postId = posts.id".
+            " LEFT JOIN authors on posts.authorId = authors.aId".
+            " LEFT JOIN categories on posts.categoryId = categories.cId".
+            " WHERE postTags.tagId=".$x.
+            " order by posts.date desc limit $s, $n";
+        return $query;
     }
 }
 ?>

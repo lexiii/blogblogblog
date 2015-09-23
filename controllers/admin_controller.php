@@ -14,7 +14,8 @@ class AdminController{
         $s       = isset($_GET['s'])?$_GET['s']:0;
         $s       = $s*10;
         $per     = 10;
-        $posts   = View::latest($per,$s);
+//        $posts   = View::latest($per,$s);
+        $posts   = View::getLatest($per,$s);
         $content = "views/admin/posts.php";
         require_once('views/admin/layout.php');
     }
