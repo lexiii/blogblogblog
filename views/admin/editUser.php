@@ -1,31 +1,43 @@
 <?php
 $roleSelect = "";
+
 foreach($roles as $role){
+
     if($role['id']==$user['role'])
         $sel = "selected";
     else
         $sel = "";
-//    $sel = ($roles['id']==$user['role'])?"selected":"";
 
     $roleSelect .= "<option value='".$role['id']."' ".$sel.">".$role['role']."</option>";
-
 }
+
+$backCancel = isset($new)?"Cancel":"Back";
+$saveCreate = isset($new)?"Create":"Save";
+$formAction = isset($new)?"?controller=admin&action=newUser":"?controller=admin&action=users";
+if(!isset($new)){
+    $delete = "<a href='?controller=admin&action=deleteUser'>";
+}
+
 if(isset($success)){
-    $msg = '<div class="alert alert-success" role="alert">Successfully updated user!</div>';
+    $updateCreate = isset($new)?"created":"updated";
+    $msg = '<div class="alert alert-success" role="alert">Successfully ".$updateCreate." user!</div>';
 }else if(isset($err)){
-    $msg = '<div class="alert alert-danger" role="alert">';
+    $msg = '<div class="alert alert-danger" role="alert"><ul>';
+
     foreach($err as $error){
-        $msg .= $error."<br/>";
+            $msg .= "<li>".$error."</li>";
     }
-    $msg .= "</div>";
+
+    $msg .= "</ul></div>";
 }else{
     $msg = "";
 }
 ?>
+
 <div class="row">
   <div class="col-md-4">
   <?php echo $msg; ?>
-    <form action="?controller=admin&action=users" method="post">
+<form action="<?php echo $formAction; ?>" method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" name='username' id="username" value="<?php echo $user['username']; ?>">
@@ -65,8 +77,8 @@ if(isset($success)){
         </div>
         <div class="row">
             <div class="col-md-8">
-                <input type='submit' class='btn btn-primary' value='save' />
-                <a class='btn btn-warning pull-right' href='?controller=admin&action=users'>Back</a>
+            <input type='submit' class='btn btn-primary' value='<?php echo $saveCreate; ?>' />
+                <a class='btn btn-warning pull-right' href='?controller=admin&action=users'><?php echo $backCancel; ?></a>
             </div>
         </div>
     </form>
