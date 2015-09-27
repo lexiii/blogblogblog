@@ -1,4 +1,7 @@
 <?php
+
+// ADMIN MODEL - /models/admin.php
+
 class Admin{
     public $id;
     public $categoryId;
@@ -209,9 +212,12 @@ class Admin{
         }
     }
 
-    public static function updateUser($user){
-        if($user['password1']!=""){
-            $err = [];
+    public static function updateUser($user,$create=0){
+
+        $err = [];
+
+        // PASSWORD IS OPTIONAL IF EDITING. NOT IF CREATING
+        if($create == 1 || $user['password1']!=""){
             if($user['password1']!=$user['password2']){
                 $err[] = "Passwords must match";
             }
@@ -219,22 +225,41 @@ class Admin{
                 $err[] = "Password must be between 6 and 30 chars long";
             }
 
-            if(count($err)==0){
-                $pass    = password_hash($user['password1'],PASSWORD_DEFAULT);
-                $andPass = ", password = '$pass' ";
-            }else{
-                return [$err,$user['id']];
-            }
+            $pass    = password_hash($user['password1'],PASSWORD_DEFAULT);
+            $andPass = ", password = '$pass' ";
         }else{
             $andPass = " ";
         }
+
+        // ADD MORE CONDITIONS HERE
+        if(str_replace(' ', '', $user['username'])==""){
+            $err[] = "Username must not be blank";
+        }
+
+
+        // return if errors
+        if(count($err)!=0){
+            return [$err,$user['id']];
+        }
+
         $db   = db::getinstance();
-        $req  = $db->query("UPDATE authors SET username = '".$user['username']."', ".
-                            "firstName = '".$user['firstName']."', ".
-                            "lastName = '".$user['lastName']."', ".
-                            "role = '".$user['role']."'".
-                            $andPass.
-                            "WHERE aId = '".$user['id']."'" );
+
+        // For creating
+        if($create==1){
+            $req  = $db->query("INSERT INTO authors SET username = '".$user['username']."', ".
+                "firstName = '".$user['firstName']."', ".
+                "lastName = '".$user['lastName']."', ".
+                "role = '".$user['role']."'".
+                $andPass);
+        // For editing
+        }else{
+            $req  = $db->query("UPDATE authors SET username = '".$user['username']."', ".
+                "firstName = '".$user['firstName']."', ".
+                "lastName = '".$user['lastName']."', ".
+                "role = '".$user['role']."'".
+                $andPass.
+                "WHERE aId = '".$user['id']."'" );
+        }
         return [1,$user['id']];
     }
 }

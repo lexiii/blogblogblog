@@ -1,4 +1,7 @@
 <?php
+
+// ADMIN CONTROLLER - /controllers/admin_controller.php
+
 class AdminController{
     public function home(){
         self::sessionCheck();
@@ -56,6 +59,7 @@ class AdminController{
     public function users($res = [0]){
         self::sessionCheck();
         if(isset($_POST['username'])){
+            // EDIT USER
             $update = Admin::updateUser($_POST);
                 unset($_POST);
                 $_GET['p']=$update[1];
@@ -83,14 +87,42 @@ class AdminController{
                     break;
                 }
                 require_once('views/admin/layout.php');
-                //var_dump($user);
-            }else{
-                // ALL USERS
-                $users   = Admin::getUsers();
-                $content = "views/admin/users.php";
-                require_once('views/admin/layout.php');
+                }else{
+                    // ALL USERS
+                    $users   = Admin::getUsers();
+                    $content = "views/admin/users.php";
+                    require_once('views/admin/layout.php');
+                }
             }
         }
+        public function newUser($res = [0]){
+            self::sessionCheck();
+            if(isset($_POST['username'])){
+                $update = Admin::updateUser($_POST,1);
+                unset($_POST);
+                if($update[0]==1){
+                    $success = TRUE;
+                    $res = [1];
+                }else{
+                    $err = $update[0];
+                    $res = [2,$err];
+            }
+            self::newUser($res);
+        }else{
+            $roles   = Admin::getRoles();
+            $new     = 1;
+            $content = "views/admin/edituser.php";
+            switch($res[0]){
+            case 1:
+                $success = TRUE;
+                break;
+            case 2:
+                $err = $res[1];
+                break;
+            }
+            require_once('views/admin/layout.php');
+        }
+
     }
 
     public function error(){

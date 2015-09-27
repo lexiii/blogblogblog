@@ -12,7 +12,7 @@ foreach($users as $user){
         <ul class="list-group">
             <?php echo $userList; ?>
 <br/>
-<a class='btn btn-default' href='#'>New User</a>
+<a class='btn btn-default' href='?controller=admin&action=newUser'>New User</a>
         </ul>
     </div>
 </div>
