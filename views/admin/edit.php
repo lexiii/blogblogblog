@@ -1,9 +1,13 @@
 <?php
 $auth = "";
 foreach($authors as $author){
-    $sel = ($author['id']==$post['authorId'])?" selected":"";
+    if(isset($newPost))
+        $sel = ($_SESSION['id']==$author['id'])?" selected":"";
+    else
+        $sel = ($author['id']==$post['authorId'])?" selected":"";
     $auth .=  "<option value='".$author['id']."'".$sel.">".$author['firstName']." ".$author['lastName']."</option> \n";
 }
+$authorDisabled = $_SESSION['role']==1?"":"disabled";
 foreach($categories as $category){
     $sel = ($category['id']==$post['categoryId'])?" selected":"";
     $cats .=  "<option value='".$category['id']."'".$sel.">".$category['title']."</option> \n";
@@ -40,7 +44,7 @@ $tagg = json_encode($tagg);
     <div class="row">
         <div class="col-md-5">
             <h3><small>User</small></h3>
-            <select name='author' class="form-control">
+            <select name='author' class="form-control" <?php echo $authorDisabled; ?>>
                 <?php echo $auth; ?>
             </select>
         </div>
