@@ -1,7 +1,12 @@
+<?php
+$title = isset($settings['title'])?$settings['title']['value']:"BLOG";
+$tagline = isset($settings['tagline'])?$settings['tagline']['value']:"blog blog blog";
+
+?>
 <div class="jumbotron" style='margin-bottom:0;'>
 <div class='container'>
-  <h1>BLOG</h1>
-  <p>blog blog blog</p>
+<h1><?php echo $title; ?></h1>
+<p><?php echo $tagline ?></p>
 </div>
 </div>
 <nav class="navbar navbar-inverse" style='border-radius:0;'>

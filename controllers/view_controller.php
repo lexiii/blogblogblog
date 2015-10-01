@@ -1,6 +1,7 @@
 <?php
     class ViewController{
         public function home(){
+            //echo $GLOBALS['settings']['foo']['value'];
             $s       = isset($_GET['s'])?$_GET['s']:0;
             $s       = $s*10;
             $per     = 10;

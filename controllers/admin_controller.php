@@ -177,6 +177,20 @@ class AdminController{
         require_once('views/redirect.php');
     }
 
+    public function settings(){
+        self::sessionCheck([1]);
+        if(isset($_GET['p'])){
+            $category = $_GET['p'];
+        }else{
+            $category = 0;
+        }
+
+        $settings = Settings::getByCategory($category);
+        $categories = Settings::getCategories();
+        $content = "views/admin/settings.php";
+        require_once('views/admin/layout.php');
+    }
+
     public function error(){
         echo "error";
     }

@@ -7,6 +7,7 @@
 </head>
 <body>
 <?php
+$settings = $GLOBALS['settings'];
 require('views/view/header.php');
 ?>
 <div class='container' id='mainContent'>

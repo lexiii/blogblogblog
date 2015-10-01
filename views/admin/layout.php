@@ -72,6 +72,7 @@
                         </div>
                     </li>
 					<li><a href="?controller=admin&action=users"><span class="glyphicon glyphicon-plane"></span> Users</a></li>
+					<li><a href="?controller=admin&action=settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
 
 				</ul>
 			</div><!-- /.navbar-collapse -->
